@@ -1,4 +1,6 @@
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class Project {
@@ -10,16 +12,32 @@ public class Project {
 
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println(" =================================================================================");
-        System.out.println(" ||\t\t\t\tWelcome to Ahmedabad Station\t\t\t\t||");
-        System.out.println(" =================================================================================");
+        System.out.println("======================================================");
+        System.out.println("||\t\t\tWelcome to Ahmedabad Station\t\t\t||");
+        System.out.println("======================================================");
 
         String input = "0";
 
         while (!input.equals("8")) {
-            System.out.println("\n\t\t==================================================\n\t\t\t\t\tMenus \n\t\t==================================================");
-            System.out.println("\n1. Login / Sign up\n2. View today's Schedule\n3. Book a ticket\n4. View your ticket\n5. View latency of trains\n6. Order food on your seat\n7. Give Feedback\n8. Exit");
-            System.out.print("\nPlease select one of these: \t");
+            System.out.println("\n\n\n");
+            System.out.println("======================================================");
+            System.out.println("\t\t\t\t\t\tMenus");
+            System.out.println("======================================================");
+
+            System.out.println("""
+                
+                 1. Login / Sign up
+                 2. View today's Schedule
+                 3. Book a ticket
+                 4. View your ticket
+                 5. View latency of trains
+                 6. Order food on your seat
+                 7. Give Feedback
+                 8. Exit
+                """);
+
+            System.out.print("Please select one of these: ");
+
             input = scanner.nextLine();
 
             switch (input) {
@@ -54,18 +72,18 @@ public class Project {
         scanner.close();
     }
 
-    private static void handleLoginOrSignup(Scanner scanner) throws IOException {
+    private static void handleLoginOrSignup(Scanner sc) throws IOException {
         System.out.println("\n1) Sign up\n2) Login");
-        String choice = scanner.nextLine();
+        String choice = sc.nextLine();
 
         if (choice.equals("1")) {
             System.out.println("Please fill these details");
             System.out.print("Username: ");
-            String newUsername = scanner.nextLine();
+            String newUsername = sc.nextLine();
             System.out.print("Email: ");
-            String email = scanner.nextLine();
+            String email = sc.nextLine();
             System.out.print("Create a password: ");
-            String password = scanner.nextLine();
+            String password = sc.nextLine();
 
             if (!newUsername.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
                 addUserToCSV(newUsername, email, password);
@@ -75,21 +93,31 @@ public class Project {
             } else {
                 System.out.println("\nThe details must not be empty..\n");
             }
-        } else if (choice.equals("2")) {
+        }
+        else if (choice.equals("2")) {
             System.out.print("Enter your Username: ");
-            String inputUsername = scanner.nextLine();
+            String inputUsername = sc.nextLine();
             System.out.print("Enter your Password: ");
-            String inputPassword = scanner.nextLine();
+            String inputPassword = sc.nextLine();
 
             if (validateLogin(inputUsername, inputPassword)) {
+
                 username = inputUsername;
                 login = true;
-                System.out.println("\n|\tYou are now logged in\t|\n");
+
+                System.out.println("\nYou are now logged in");
+                System.out.println("Press Enter to continue! ");
+                sc.nextLine();
+
             } else {
-                System.out.println("|\nIncorrect username or password\n|");
+
+                System.out.println("\nIncorrect username or password");
+                System.out.println("Press Enter to continue! ");
+                sc.nextLine();
+
             }
         } else {
-            System.out.println("\nEnter 1 to create an account or 2 to login to an existing account\n");
+            System.out.println("Enter value from the given list..");
         }
     }
 
@@ -138,16 +166,97 @@ public class Project {
         }
     }
 
+
+
     private static boolean validateLogin(String username, String password) {
-        // Placeholder: Replace with CSV file validation logic
-        return true;
+
+        String loginsDataPath = "Data/logins.csv";
+
+        try {
+
+            String fileContent = new String(Files.readAllBytes(Paths.get(loginsDataPath)));
+
+
+            int count = count(fileContent, '\n') +1;
+
+            String[][] logins = new String[count][3];
+
+            String[] lines = fileContent.split("\n");
+
+            for(int i = 0; i < lines.length; i++){
+
+                logins[i] = lines[i].split(",");
+
+            }
+
+
+
+            for(int i = 0; i < logins.length; i++){
+
+                if(username.equals(logins[i][0]) && password.equals(logins[i][2]))
+                    return true;
+
+            }
+
+        }
+        catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+        }
+
+        return false;
+
     }
 
+
+
+
+
+    // Add logic to append user data to a CSV file
     private static void addUserToCSV(String username, String email, String password) {
-        // Placeholder: Add logic to append user data to a CSV file
+        try (FileWriter fw = new FileWriter("Data/logins.csv", true);
+             BufferedWriter bw = new BufferedWriter(fw);
+             PrintWriter out = new PrintWriter(bw)) {
+            out.println(username + "," + email + "," + password);
+            System.out.println("User added successfully.");
+        } catch (IOException e) {
+            System.out.println("Error writing to logins.csv: " + e.getMessage());
+        }
     }
 
+    // Add logic to append feedback data to a CSV file
     private static void addFeedbackToCSV(String username, String feedback) {
-        // Placeholder: Add logic to append feedback data to a CSV file
+        try (FileWriter fw = new FileWriter("Data/feedback.csv", true);
+             BufferedWriter bw = new BufferedWriter(fw);
+             PrintWriter out = new PrintWriter(bw)) {
+            out.println(username + "=" + feedback);
+            System.out.println("Feedback submitted successfully.");
+        } catch (IOException e) {
+            System.out.println("Error writing to feedback.csv: " + e.getMessage());
+        }
     }
+
+
+    static int count(String str, char ch){
+
+        int count = 0;
+        for (int i = 0; i < str.length(); i++){
+
+            if(ch == str.charAt(i))
+                count++;
+
+        }
+
+        return count;
+
+    }
+
+
+    static void printArr(String[] arr){
+
+        for(String val : arr)
+            System.out.println(val);
+
+    }
+
+
 }

@@ -1,0 +1,17 @@
+Train Name,Train No.,Coach Type,Platform no.,Arrival time,Depature Time,Going to,latency (min),Food at seat,pricing (per person),Arrival at destination (date),Arrival at destination (time),seat available
+Deccan Odyssey,10113,Sleepig AC,2,6.39 AM,6.47 AM,Surat,8,True,200,0,9.30 AM,36
+Maharaja's Express,20983,AC Premium,4,7.00 AM,7.20 AM,Madras,3,True,2998,2,4.00 AM,45
+Valsad local,10012,Local sitting,1,7.10 AM,7.15 AM,Pardi,10,False,49,0,8.30 AM,67
+Dakshin guj. Express,20019,Sleeper,2,7.10 AM,7.20 AM,Ahmedabad,7,True,78,0,12.00 AM,93
+Valsad local 2,10013,Local sitting,4,7.50 AM,7.55 AM,Udwada,5,False,39,0,9.00 AM,68
+Maharani's Superfast,10983,Sleeping AC,3,8.46 AM,9.00 AM,Nagpur,4,True,569,0,3.00 PM,67
+Praja's Vahan,19994,AC Premium,2,8.45 AM,8.55 AM,Noida,7,True,776,2,11.00 AM,149
+National Tourist,22002,Sitting AC,1,10.55 AM,11.05 AM,Surat,2,False,300,0,2.00 PM,90
+Deccan Odyssey 2,10114,Sleeping AC,2,11.30 AM,11.50 AM,New Delhi,4,True,1900,2,2.00 PM,126
+Saurastra Superfast,20222,AC Premium,4,1.00 PM,1.20 PM,Veraval,2,True,996,1,2.00 AM,111
+West India express,10010,Sleeping AC,3,1.20 PM,1.30 PM,Jaipur,3,True,890,1,4.00 AM,58
+Valsad Local 3,10014,Local sitting,1,1.30 PM,1.35 PM,Valsad,5,False,53,0,3.45 PM,79
+Akhri safar,20028,AC Premium,1,1.50 PM,2.10 PM,Kota,2,True,21,1,3.00 AM,72
+tivragati rail,10101,Sleeping AC,4,3.00 PM,3.30 PM,Haridwar,2,True,1289,2,12.00 PM,108
+Vande Bharat,11111,AC Premium,2,4.20 PM,4.40 PM,West Bengal,1,True,3002,2,4.00 AM,132
+Dakshin guj. Express 2,20020,Sleeper,1,5.00 PM,5.15 PM,Navsari,6,False,99,0,7:15 PM,91
