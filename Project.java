@@ -13,7 +13,7 @@ public class Project {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("======================================================");
-        System.out.println("||\t\t\tWelcome to Ahmedabad Station\t\t\t||");
+        System.out.println("||\tWelcome to Sardar Patel International Airport\t||");
         System.out.println("======================================================");
 
         String input = "0";
@@ -66,21 +66,29 @@ public class Project {
                     System.out.println("\n\nThank you!");
                     break;
                 default:
-                    System.out.println("\nSelect one from the serial numbers. Press Enter to continue.");
+                    System.out.println("\nSelect one from the serial numbers.");
+                    System.out.println("Press Enter to continue! ");
+                    scanner.nextLine();
             }
         }
         scanner.close();
     }
 
-    private static void handleLoginOrSignup(Scanner sc) throws IOException {
-        System.out.println("\n1) Login \n2) Sign up");
+
+
+    private static void handleLoginOrSignup(Scanner sc) {
+        System.out.println("\n1) Login");
+        System.out.println("2) Sign up");
+        System.out.print("\nPlease select one of these: ");
+
         String choice = sc.nextLine();
 
         if (choice.equals("1")) {
             System.out.print("Enter your Username: ");
-            String inputUsername = sc.nextLine();
+            String inputUsername = sc.next();
             System.out.print("Enter your Password: ");
-            String inputPassword = sc.nextLine();
+            String inputPassword = sc.next();
+            sc.nextLine();
 
             if (validateLogin(inputUsername, inputPassword)) {
 
@@ -88,15 +96,11 @@ public class Project {
                 login = true;
 
                 System.out.println("\nYou are now logged in");
-                System.out.println("Press Enter to continue! ");
-                sc.nextLine();
 
             }
             else {
 
                 System.out.println("\nIncorrect username or password");
-                System.out.println("Press Enter to continue! ");
-                sc.nextLine();
 
             }
         }
@@ -110,12 +114,14 @@ public class Project {
             System.out.print("Create a password: ");
             String password = sc.next();
 
-            if (!(newUsername.isEmpty() || !email.isEmpty() || !password.isEmpty())) {
+            if (!(newUsername.isEmpty() || email.isEmpty() || password.isEmpty())) {
 
                 addUserToCSV(newUsername, email, password);
+
                 username = newUsername;
                 login = true;
-                System.out.println("\n||\tSign up and Login success\t||");
+
+                System.out.println("\nSign up and Login success\n");
 
             }
             else {
@@ -126,7 +132,15 @@ public class Project {
         else {
             System.out.println("Enter value from the given list..");
         }
+
+        System.out.println("Press Enter to continue! ");
+        sc.nextLine();
+
     }
+
+
+
+
 
     private static void viewSchedule() {
         System.out.println("\n\nHere's the schedule for today:\n\n");
@@ -219,12 +233,19 @@ public class Project {
 
     // Add logic to append user data to a CSV file
     private static void addUserToCSV(String username, String email, String password) {
-        try (FileWriter fw = new FileWriter("Data/logins.csv", true);
-             BufferedWriter bw = new BufferedWriter(fw);
-             PrintWriter out = new PrintWriter(bw)) {
-            out.println(username + "," + email + "," + password);
-            System.out.println("User added successfully.");
-        } catch (IOException e) {
+
+        try (
+                FileWriter fw = new FileWriter("Data/logins.csv", true);
+
+                BufferedWriter bw = new BufferedWriter(fw);
+
+                PrintWriter out = new PrintWriter(bw)
+        ) {
+            out.print("\n" + username + "," + email + "," + password);
+
+        }
+
+        catch (IOException e) {
             System.out.println("Error writing to logins.csv: " + e.getMessage());
         }
     }
