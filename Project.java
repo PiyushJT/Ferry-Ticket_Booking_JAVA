@@ -73,28 +73,10 @@ public class Project {
     }
 
     private static void handleLoginOrSignup(Scanner sc) throws IOException {
-        System.out.println("\n1) Sign up\n2) Login");
+        System.out.println("\n1) Login \n2) Sign up");
         String choice = sc.nextLine();
 
         if (choice.equals("1")) {
-            System.out.println("Please fill these details");
-            System.out.print("Username: ");
-            String newUsername = sc.nextLine();
-            System.out.print("Email: ");
-            String email = sc.nextLine();
-            System.out.print("Create a password: ");
-            String password = sc.nextLine();
-
-            if (!newUsername.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-                addUserToCSV(newUsername, email, password);
-                username = newUsername;
-                login = true;
-                System.out.println("\n||\tSign up and Login success\t||");
-            } else {
-                System.out.println("\nThe details must not be empty..\n");
-            }
-        }
-        else if (choice.equals("2")) {
             System.out.print("Enter your Username: ");
             String inputUsername = sc.nextLine();
             System.out.print("Enter your Password: ");
@@ -109,21 +91,45 @@ public class Project {
                 System.out.println("Press Enter to continue! ");
                 sc.nextLine();
 
-            } else {
+            }
+            else {
 
                 System.out.println("\nIncorrect username or password");
                 System.out.println("Press Enter to continue! ");
                 sc.nextLine();
 
             }
-        } else {
+        }
+        else if (choice.equals("2")) {
+
+            System.out.println("Please fill these details");
+            System.out.print("Username: ");
+            String newUsername = sc.next();
+            System.out.print("Email: ");
+            String email = sc.next();
+            System.out.print("Create a password: ");
+            String password = sc.next();
+
+            if (!(newUsername.isEmpty() || !email.isEmpty() || !password.isEmpty())) {
+
+                addUserToCSV(newUsername, email, password);
+                username = newUsername;
+                login = true;
+                System.out.println("\n||\tSign up and Login success\t||");
+
+            }
+            else {
+                System.out.println("\nThe details must not be empty..\n");
+            }
+
+        }
+        else {
             System.out.println("Enter value from the given list..");
         }
     }
 
     private static void viewSchedule() {
         System.out.println("\n\nHere's the schedule for today:\n\n");
-        // Placeholder: Replace with code to display train schedule from a CSV file
         System.out.println("Train schedules will be shown here.");
     }
 
