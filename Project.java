@@ -1,3 +1,5 @@
+import static java.lang.System.in;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -5,24 +7,24 @@ import java.util.*;
 
 public class Project {
 
-    private static boolean login = false;
-    private static boolean book = false;
-    private static String username = "";
+    static boolean login = false;
+    static boolean book = false;
+    static String username = "";
 
 
     public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("======================================================");
-        System.out.println("||\tWelcome to Sardar Patel International Airport\t||");
-        System.out.println("======================================================");
+        Scanner scanner = new Scanner(in);
+        System.out.println("==================================================");
+        System.out.println("||\t\tSardar Patel International Airport\t\t||");
+        System.out.println("==================================================");
 
         String input = "0";
 
         while (!input.equals("8")) {
             System.out.println("\n\n\n");
-            System.out.println("======================================================");
-            System.out.println("\t\t\t\t\t\tMenus");
-            System.out.println("======================================================");
+            System.out.println("==================================================");
+            System.out.println("\t\t\t\t\tMenus");
+            System.out.println("==================================================");
 
             System.out.println("""
                 
@@ -142,12 +144,70 @@ public class Project {
 
 
 
-    private static void viewSchedule() {
+    static void viewSchedule() {
         System.out.println("\n\nHere's the schedule for today:\n\n");
-        System.out.println("Train schedules will be shown here.");
+
+        String loginsDataPath = "Data/schedule.csv";
+
+        try {
+
+            String schedule = new String(Files.readAllBytes(Paths.get(loginsDataPath)));
+
+            int linesCount = count(schedule, '\n') + 1;
+
+
+            String[][] flights = new String[linesCount][12];
+
+            String[] lines = schedule.split("\n");
+
+            for (int i = 0; i < lines.length; i++) {
+
+                flights[i] = lines[i].split(",");
+
+            }
+
+
+            printArr(flights);
+
+
+        } catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+        }
     }
 
-    private static void bookTicket(Scanner scanner) {
+
+    static void printArr(String[][] table) {
+
+        int[] columnWidths = new int[table[0].length];
+
+
+        for (String[] row : table) {
+            for (int i = 0; i < row.length; i++) {
+                columnWidths[i] = Math.max(columnWidths[i], row[i].trim().length());
+            }
+        }
+
+
+        // Print the formatted table
+        for (int i = 0; i < table.length; i++) {
+
+            for (int j = 0; j < table[i].length; j++) {
+
+                if (!(j == 3 || j == 4 || j == 7))
+                    System.out.printf("%-" + columnWidths[j] + "s ", table[i][j].trim());
+
+            }
+            System.out.println();
+        }
+
+    }
+
+
+
+
+
+
+    static void bookTicket(Scanner scanner) {
         if (login) {
             System.out.println("Booking ticket functionality is under development.");
         } else {
@@ -155,7 +215,7 @@ public class Project {
         }
     }
 
-    private static void viewTicket() {
+    static void viewTicket() {
         if (book) {
             System.out.println("Viewing ticket functionality is under development.");
         } else {
@@ -163,11 +223,11 @@ public class Project {
         }
     }
 
-    private static void viewLatency() {
+    static void viewLatency() {
         System.out.println("Latency graph functionality is under development.");
     }
 
-    private static void orderFood(Scanner scanner) {
+    static void orderFood(Scanner scanner) {
         if (book) {
             System.out.println("Food ordering functionality is under development.");
         } else {
@@ -175,7 +235,7 @@ public class Project {
         }
     }
 
-    private static void giveFeedback(Scanner scanner) {
+    static void giveFeedback(Scanner scanner) {
         if (login) {
             System.out.print("\nEnter your Feedback here: \n\n");
             String feedback = scanner.nextLine();
@@ -188,7 +248,7 @@ public class Project {
 
 
 
-    private static boolean validateLogin(String username, String password) {
+    static boolean validateLogin(String username, String password) {
 
         String loginsDataPath = "Data/logins.csv";
 
@@ -196,10 +256,13 @@ public class Project {
 
             String fileContent = new String(Files.readAllBytes(Paths.get(loginsDataPath)));
 
+            fileContent = fileContent.substring(
+                    fileContent.indexOf("\n") + 1
+            );
 
-            int count = count(fileContent, '\n') +1;
+            int linesCount = count(fileContent, '\n') + 1;
 
-            String[][] logins = new String[count][3];
+            String[][] logins = new String[linesCount][3];
 
             String[] lines = fileContent.split("\n");
 
@@ -232,7 +295,7 @@ public class Project {
 
 
     // Add logic to append user data to a CSV file
-    private static void addUserToCSV(String username, String email, String password) {
+    static void addUserToCSV(String username, String email, String password) {
 
         try (
                 FileWriter fw = new FileWriter("Data/logins.csv", true);
@@ -251,7 +314,7 @@ public class Project {
     }
 
     // Add logic to append feedback data to a CSV file
-    private static void addFeedbackToCSV(String username, String feedback) {
+    static void addFeedbackToCSV(String username, String feedback) {
         try (FileWriter fw = new FileWriter("Data/feedback.csv", true);
              BufferedWriter bw = new BufferedWriter(fw);
              PrintWriter out = new PrintWriter(bw)) {
@@ -276,14 +339,5 @@ public class Project {
         return count;
 
     }
-
-
-    static void printArr(String[] arr){
-
-        for(String val : arr)
-            System.out.println(val);
-
-    }
-
 
 }
