@@ -14,7 +14,7 @@ public class Project {
 
         Scanner sc = new Scanner(in);
         System.out.println("==============================================");
-        System.out.println("||\t\t\tWelcome to FlightLink\t\t\t||");
+        System.out.println("||\t\tWelcome to FlightLink\t\t||");
         System.out.println("==============================================");
 
         String input = "0";
@@ -22,7 +22,7 @@ public class Project {
         while (!input.equals("8")) {
             System.out.println("\n\n\n");
             System.out.println("==============================================");
-            System.out.println("\t\t\t\t\tMenus");
+            System.out.println("\t\t\tMenus");
             System.out.println("==============================================");
 
             System.out.println("""
@@ -142,9 +142,9 @@ class TicketManagement{
             }
 
 
-            for (int i = 0; i < logins.length; i++) {
+            for (String[] loginData : logins) {
 
-                if (inputUsername.equals(logins[i][0]) && inputPassword.equals(logins[i][2])) {
+                if (inputUsername.equals(loginData[0]) && inputPassword.equals(loginData[2])) {
                     login = true;
                     break;
                 }
@@ -227,8 +227,28 @@ class TicketManagement{
             }
 
 
-            printArr(flights);
+            // printing
+            int[] columnWidths = new int[flights[0].length];
 
+
+            for (String[] row : flights) {
+                for (int i = 0; i < row.length; i++) {
+                    columnWidths[i] = Math.max(columnWidths[i], row[i].trim().length());
+                }
+            }
+
+
+            // Print the formatted table
+            for (int i = 0; i < flights.length; i++) {
+
+                for (int j = 0; j < flights[i].length; j++) {
+
+                    if (!(j == 2 || j == 3))
+                        System.out.printf("%-" + columnWidths[j] + "s ", flights[i][j].trim());
+
+                }
+                System.out.println();
+            }
 
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
@@ -311,30 +331,5 @@ class TicketManagement{
 
     }
 
-    void printArr(String[][] table) {
-
-        int[] columnWidths = new int[table[0].length];
-
-
-        for (String[] row : table) {
-            for (int i = 0; i < row.length; i++) {
-                columnWidths[i] = Math.max(columnWidths[i], row[i].trim().length());
-            }
-        }
-
-
-        // Print the formatted table
-        for (int i = 0; i < table.length; i++) {
-
-            for (int j = 0; j < table[i].length; j++) {
-
-                if (!(j == 3 || j == 4 || j == 7))
-                    System.out.printf("%-" + columnWidths[j] + "s ", table[i][j].trim());
-
-            }
-            System.out.println();
-        }
-
-    }
 
 }
