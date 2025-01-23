@@ -1,5 +1,4 @@
 import static java.lang.System.in;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -14,7 +13,7 @@ public class Project {
 
         Scanner sc = new Scanner(in);
         System.out.println("==============================================");
-        System.out.println("||\t\tWelcome to FlightLink\t\t||");
+        System.out.println("||\t\tFerry Reservation\t\t||");
         System.out.println("==============================================");
 
         String input = "0";
@@ -28,11 +27,11 @@ public class Project {
             System.out.println("""
 
                      1. Login / Sign up
-                     2. View today's Schedule
+                     2. Search Ferries
                      3. Book a ticket
                      4. View your ticket
-                     5. View latency of trains
-                     6. Order food on your seat
+                     5. Modify your ticket
+                     6. Cancel your ticket
                      7. Give Feedback
                      8. Exit
                     """);
@@ -46,7 +45,7 @@ public class Project {
                     tM.loginOrSignup();
                     break;
                 case "2":
-                    tM.viewSchedule();
+                    tM.searchFerries();
                     break;
                 case "3":
                     tM.bookTicket();
@@ -79,6 +78,19 @@ public class Project {
 
 class TicketManagement{
 
+    String[] ferryTerminals = {
+            "Terminal 1",
+            "Terminal 2",
+            "Terminal 3",
+            "Terminal 4",
+            "Terminal 5",
+            "Terminal 6",
+            "Terminal 7",
+            "Terminal 8",
+            "Terminal 9",
+            "Terminal 10"
+    };
+
     boolean login;
     boolean book;
     String username;
@@ -98,12 +110,12 @@ class TicketManagement{
             login();
         else if (choice.equals("2"))
             signUp();
-        else
+        else {
             System.out.println("Enter value from the given list..");
 
-
-        System.out.println("Press Enter to continue! ");
-        sc.nextLine();
+            System.out.println("Press Enter to continue! ");
+            sc.nextLine();
+        }
 
     }
 
@@ -129,33 +141,31 @@ class TicketManagement{
                     fileContent.indexOf("\n") + 1
             );
 
-            int linesCount = countChar(fileContent, '\n') + 1;
+            String[] rawLogins = fileContent.split("\n");
 
-            String[][] logins = new String[linesCount][3];
+            Logins[] logins = new Logins[rawLogins.length];
 
-            String[] lines = fileContent.split("\n");
+            for(int i = 0; i < rawLogins.length; i++){
 
-            for (int i = 0; i < lines.length; i++) {
+                String[] login = rawLogins[i].split(",");
 
-                logins[i] = lines[i].split(",");
+                logins[i] = new Logins();
+                logins[i].username = login[0];
+                logins[i].email = login[1];
+                logins[i].password = login[2].trim();
 
             }
 
+            for(Logins l : logins){
 
-            for (String[] loginData : logins) {
-
-                if (inputUsername.equals(loginData[0]) && inputPassword.equals(loginData[2])) {
+                if(inputUsername.equals(l.username) && inputPassword.equals(l.password)){
                     login = true;
+                    username = l.username;
+                    System.out.println("\n\nLogin Successful.");
+                    System.out.println("\nPress Enter to continue! ");
+                    sc.nextLine();
                     break;
                 }
-
-            }
-            if (login) {
-                username = inputUsername;
-                System.out.println("\nYou are now logged in");
-            } else {
-
-                System.out.println("\nIncorrect username or password");
 
             }
 
@@ -173,11 +183,11 @@ class TicketManagement{
 
         System.out.println("Please fill these details");
         System.out.print("Username: ");
-        String newUsername = sc.next();
+        String newUsername = sc.nextLine();
         System.out.print("Email: ");
-        String email = sc.next();
+        String email = sc.nextLine();
         System.out.print("Create a password: ");
-        String password = sc.next();
+        String password = sc.nextLine();
 
         if (!(newUsername.isEmpty() || email.isEmpty() || password.isEmpty())) {
 
@@ -194,6 +204,8 @@ class TicketManagement{
                 login = true;
 
                 System.out.println("\nSign up and Login success\n");
+                System.out.println("Press Enter to continue!");
+                sc.nextLine();
 
             } catch (IOException e) {
                 System.out.println("Error writing to logins.csv: " + e.getMessage());
@@ -204,63 +216,118 @@ class TicketManagement{
     }
 
 
-    void viewSchedule() {
-        System.out.println("\n\nHere's the schedule for today:\n\n");
+    void searchFerries() {
 
-        String loginsDataPath = "Data/schedule.csv";
+        System.out.println("List of Ferry terminals");
+
+        for(int i = 0; i < ferryTerminals.length; i++){
+            System.out.println(i+1 + ". " + ferryTerminals[i]);
+        }
+
+        Scanner sc = new Scanner(System.in);
+        System.out.print("\nEnter your source number from above: ");
+        String source = sc.nextLine();
+        System.out.print("Enter your destination number from above: ");
+        String destination = sc.nextLine();
+
 
         try {
 
-            String schedule = new String(Files.readAllBytes(Paths.get(loginsDataPath)));
+            int sourceInt = Integer.parseInt(source);
+            int destinationInt = Integer.parseInt(destination);
 
-            int linesCount = countChar(schedule, '\n') + 1;
+            boolean isValidSAndD = sourceInt < ferryTerminals.length &&
+                    sourceInt >= 0 &&
+                    destinationInt < ferryTerminals.length &&
+                    destinationInt >= 0;
+
+            if (isValidSAndD) {
+
+                String loginsDataPath = "Data/schedule.csv";
+
+                try {
+
+                    String fileContent = new String(Files.readAllBytes(Paths.get(loginsDataPath)));
+
+                    fileContent = fileContent.substring(
+                            fileContent.indexOf("\n") + 1
+                    );
+
+                    String[] rawFerries = fileContent.split("\n");
+
+                    Ferries[] ferries = new Ferries[rawFerries.length];
+
+                    for(int i = 0; i < rawFerries.length; i++){
+
+                        String[] ferry = rawFerries[i].split(",");
+
+                        ferries[i] = new Ferries();
+                        ferries[i].ferryName = ferry[0];
+                        ferries[i].ferryNo = ferry[1];
+                        ferries[i].departureTime = ferry[2];
+                        ferries[i].from = ferry[3];
+                        ferries[i].to = ferry[4];
+                        ferries[i].price = ferry[5];
+                        ferries[i].arrivalAtDestination = ferry[6];
+                        ferries[i].seatAvailable = ferry[7];
+
+                    }
+
+                    for(int i = 0; i < ferryTerminals.length; i++){
+
+                        if(ferries[i].from.equals(ferryTerminals[sourceInt-1]) && ferries[i].to.equals(ferryTerminals[destinationInt-1])){
+
+                            System.out.println();
+                            System.out.println(i+1 + ". " + ferries[i].ferryName);
+
+                        }
+
+                    }
+
+                    System.out.println("\n\nPress Enter to continue!");
+                    sc.nextLine();
 
 
-            String[][] flights = new String[linesCount][12];
 
-            String[] lines = schedule.split("\n");
-
-            for (int i = 0; i < lines.length; i++) {
-
-                flights[i] = lines[i].split(",");
-
-            }
-
-
-            // printing
-            int[] columnWidths = new int[flights[0].length];
-
-
-            for (String[] row : flights) {
-                for (int i = 0; i < row.length; i++) {
-                    columnWidths[i] = Math.max(columnWidths[i], row[i].trim().length());
+                } catch (IOException e) {
+                    System.err.println("Error reading the file: " + e.getMessage());
                 }
+
             }
-
-
-            // Print the formatted table
-            for (int i = 0; i < flights.length; i++) {
-
-                for (int j = 0; j < flights[i].length; j++) {
-
-                    if (!(j == 2 || j == 3))
-                        System.out.printf("%-" + columnWidths[j] + "s ", flights[i][j].trim());
-
-                }
-                System.out.println();
+            else {
+                System.out.println("Enter only valid value in given range..");
             }
-
-        } catch (IOException e) {
-            System.err.println("Error reading the file: " + e.getMessage());
         }
+        catch (Exception e){
+
+            System.out.println("Entered values are not valid. \nEnter only Integer value in given range..");
+            System.out.println("Press Enter to continue!");
+            sc.nextLine();
+
+        }
+
+
     }
 
 
     void bookTicket() {
+        Scanner sc = new Scanner(System.in);
         if (login) {
-            System.out.println("Booking ticket functionality is under development.");
+
+            System.out.println("Enter Ferry number: ");
+            int ferryNo = sc.nextInt();
+            System.out.println("Enter number of tickets to book: ");
+            int tickets = sc.nextInt();
+
+            System.out.println("Do you want parking y/n: ");
+            Boolean parking = "y".equals(sc.next());
+
+
+
         } else {
             System.out.println("\nYou first have to login..\n");
+            System.out.println("Press Enter to continue!");
+            sc.nextLine();
         }
     }
 
@@ -332,4 +399,21 @@ class TicketManagement{
     }
 
 
+}
+
+class Logins{
+    String username;
+    String email;
+    String password;
+}
+
+class Ferries{
+    String ferryName;
+    String ferryNo;
+    String departureTime;
+    String from;
+    String to;
+    String price;
+    String arrivalAtDestination;
+    String seatAvailable;
 }
