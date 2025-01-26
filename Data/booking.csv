@@ -1,2 +1,4 @@
-Username:Train no:Train name:no of tickets:Passengers:Passenger ages:seatno:dayOfArrival:Travelling to:Depature time:Arrival time:Food availability:Coach no.
-piyush:20028:Akhri safar:1:['piyush']:[17]:71:Tomorrow:Kota:2.10 PM:3.00 AM:True:2
+Username,Ferry No.,Ferry name,Date,No of passenger,From,To,Depature Time,Parking
+null,20028,Akhri safar,31-12-2024,2,Kota,Kota,2.10 PM,true
+null,20028,Akhri safar,1-1-2024,3,Kota,Kota,2.10 PM,false
+null,20028,Akhri safar,2-2-2024,2,Kota,Kota,2.10 PM,true
