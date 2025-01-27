@@ -51,7 +51,7 @@ class Project {
 
             switch (input) {
                 case "1":
-                    tM.loginOrSignup(logins);
+                    tM.loginOrSignup(logins, bookings);
                     break;
                 case "2":
                     tM.searchFerries(ferries);
@@ -215,12 +215,12 @@ class TicketManagement{
             "Terminal 10"
     };
 
-    boolean login = true;
-    boolean book = true;
-    String username = "piyush";
+    boolean login = false;
+    boolean book = false;
+    String username;
 
 
-    void loginOrSignup(Logins[] logins) {
+    void loginOrSignup(Logins[] logins, Bookings[] bookings) {
 
         Scanner sc = new Scanner(in);
 
@@ -231,7 +231,7 @@ class TicketManagement{
         String choice = sc.nextLine();
 
         if (choice.equals("1"))
-            login(logins);
+            login(logins, bookings);
         else if (choice.equals("2"))
             signUp();
         else {
@@ -244,7 +244,7 @@ class TicketManagement{
     }
 
 
-    void login(Logins[] logins) {
+    void login(Logins[] logins, Bookings[] bookings) {
 
         Scanner sc = new Scanner(in);
 
@@ -260,14 +260,17 @@ class TicketManagement{
                 login = true;
                 username = l.username;
                 System.out.println("\n\nLogin Successful.");
+                book = checkBookingStatus(username, bookings);
                 System.out.println("\nPress Enter to continue! ");
                 sc.nextLine();
-                break;
+                return;
             }
 
         }
 
-
+        System.out.println("\nUsername or password invalid.");
+        System.out.println("\nPress Enter to continue.");
+        sc.nextLine();
 
     }
 
@@ -596,8 +599,17 @@ class TicketManagement{
 
     }
 
-    boolean checkBookingStatus(String username){
+    boolean checkBookingStatus(String username, Bookings[] bookings){
+
+        for (Bookings booking : bookings) {
+
+            if(booking.username.equals(username)){
+                return true;
+            }
+
+        }
         return false;
+
     }
 
 
