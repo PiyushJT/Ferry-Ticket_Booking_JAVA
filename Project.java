@@ -60,7 +60,7 @@ class Project {
                     tM.bookTicket(ferries);
                     break;
                 case "4":
-                    tM.viewTicket();
+                    tM.viewTicket(bookings);
                     break;
                 case "5":
                     break;
@@ -179,11 +179,12 @@ class Project {
                 bookings[i].ferryNo = Integer.parseInt(booking[1]);
                 bookings[i].ferryName = booking[2];
                 bookings[i].date = booking[3];
-                bookings[i].noOfPassengers = booking[4];
+                bookings[i].noOfPassengers = Integer.parseInt(booking[4]);
                 bookings[i].from = booking[5];
                 bookings[i].to = booking[6];
                 bookings[i].departureTime = booking[7];
-                bookings[i].parking = booking[8];
+                bookings[i].parking = Boolean.parseBoolean(booking[8]);
+                bookings[i].price = Integer.parseInt(booking[9]);
 
             }
 
@@ -215,8 +216,8 @@ class TicketManagement{
     };
 
     boolean login = true;
-    boolean book;
-    String username = "Piyush";
+    boolean book = true;
+    String username = "piyush";
 
 
     void loginOrSignup(Logins[] logins) {
@@ -495,13 +496,43 @@ class TicketManagement{
     }
 
 
-    void viewTicket() {
+    void viewTicket(Bookings[] bookings) {
+
+        Scanner sc = new Scanner(in);
+
         if (book) {
-            System.out.println("Viewing ticket functionality is under development.");
-        } else {
-            System.out.println("\nFirst you have to book a ticket.");
+            for (Bookings booking : bookings) {
+
+                if(booking.username.equals(username)){
+
+                    printTicket(
+                            booking.username,
+                            booking.ferryNo,
+                            booking.ferryName,
+                            booking.date,
+                            booking.noOfPassengers,
+                            booking.from,
+                            booking.to,
+                            booking.departureTime,
+                            booking.parking,
+                            booking.price
+                    );
+                    break;
+                }
+            }
+
+            System.out.println("\nPress Enter to continue.");
+            sc.nextLine();
+
+        }
+        else {
+            System.out.println("\nYou have no tickets booked.");
+
+            System.out.println("\nPress Enter to continue.");
+            sc.nextLine();
         }
     }
+
 
     void giveFeedback() {
         if (login) {
@@ -529,8 +560,18 @@ class TicketManagement{
 
 
 
-    void printTicket(String username, int FerryNo, String ferryName, String date,
-                     int tickets, String from, String to, String departureTime, boolean Parking, int price){
+    void printTicket(
+            String username,
+            int FerryNo,
+            String ferryName,
+            String date,
+            int tickets,
+            String from,
+            String to,
+            String departureTime,
+            boolean Parking,
+            int price
+    ){
 
 
         System.out.println("\nThis is your booking:");
@@ -547,12 +588,16 @@ class TicketManagement{
         System.out.println("Parking opted: " + Parking);
 
         System.out.println();
-        System.out.println("The ticket fare will be " + price);
+        System.out.println("The ticket fare is " + price);
 
         System.out.println();
         System.out.println();
 
 
+    }
+
+    boolean checkBookingStatus(String username){
+        return false;
     }
 
 
@@ -580,9 +625,10 @@ class Bookings{
     String ferryName;
     int ferryNo;
     String date;
-    String noOfPassengers;
+    int noOfPassengers;
     String from;
     String to;
     String departureTime;
-    String parking;
+    boolean parking;
+    int price;
 }

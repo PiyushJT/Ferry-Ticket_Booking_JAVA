@@ -1,4 +1,4 @@
-Username,Ferry No.,Ferry name,Date,No of passenger,From,To,Depature Time,Parking
-null,20028,Akhri safar,31-12-2024,2,Kota,Kota,2.10 PM,true
-null,20028,Akhri safar,1-1-2024,3,Kota,Kota,2.10 PM,false
-null,20028,Akhri safar,2-2-2024,2,Kota,Kota,2.10 PM,true
+Username,Ferry No.,Ferry name,Date,No of passenger,From,To,Depature Time,Parking,Price
+null,20028,Akhri safar,31-12-2024,2,Kota,Kota,2.10 PM,true,23
+piyush,20028,Akhri safar,1-1-2024,3,Kota,Kota,2.10 PM,false,34
+null,20028,Akhri safar,2-2-2024,2,Kota,Kota,2.10 PM,true,78
