@@ -63,8 +63,10 @@ class Project {
                     tM.viewTicket(bookings);
                     break;
                 case "5":
+                    tM.modifyTicket(bookings);
                     break;
                 case "6":
+                    tM.cancelTicket(bookings);
                     break;
                 case "7":
                     tM.giveFeedback();
@@ -92,9 +94,9 @@ class Project {
 
             String[] rawLogins = fileContent.split("\n");
 
-            Logins[] logins = new Logins[rawLogins.length-1];
+            Logins[] logins = new Logins[rawLogins.length];
 
-            for (int i = 0; i < rawLogins.length-1; i++) {
+            for (int i = 0; i < rawLogins.length; i++) {
 
                 String[] login = rawLogins[i].split(",");
 
@@ -105,6 +107,7 @@ class Project {
 
             }
 
+            System.out.println("logins" + logins.length);
             return logins;
 
         }
@@ -127,9 +130,9 @@ class Project {
 
             String[] rawFerries = fileContent.split("\n");
 
-            Ferries[] ferries = new Ferries[rawFerries.length-1];
+            Ferries[] ferries = new Ferries[rawFerries.length];
 
-            for (int i = 0; i < rawFerries.length-1; i++) {
+            for (int i = 0; i < rawFerries.length; i++) {
 
                 String[] ferry = rawFerries[i].split(",");
 
@@ -145,6 +148,7 @@ class Project {
 
             }
 
+            System.out.println("ferries" + ferries.length);
             return ferries;
 
         }
@@ -168,9 +172,9 @@ class Project {
 
             String[] rawBookings = fileContent.split("\n");
 
-            Bookings[] bookings = new Bookings[rawBookings.length-1];
+            Bookings[] bookings = new Bookings[rawBookings.length];
 
-            for (int i = 0; i < rawBookings.length-1; i++) {
+            for (int i = 0; i < rawBookings.length; i++) {
 
                 String[] booking = rawBookings[i].split(",");
 
@@ -187,6 +191,7 @@ class Project {
                 bookings[i].price = Integer.parseInt(booking[9]);
 
             }
+            System.out.println("bookings" + bookings.length);
 
             return bookings;
 
@@ -215,9 +220,9 @@ class TicketManagement{
             "Terminal 10"
     };
 
-    boolean login = false;
-    boolean book = false;
-    String username;
+    boolean login = true;
+    boolean book = true;
+    String username = "piyush";
 
 
     void loginOrSignup(Logins[] logins, Bookings[] bookings) {
@@ -342,12 +347,12 @@ class TicketManagement{
             if (isValidSAndD) {
 
 
-                for (int i = 0; i < ferryTerminals.length; i++) {
+                for (Ferries ferry : ferries) {
 
-                    if (ferries[i].from.equals(ferryTerminals[sourceInt - 1]) && ferries[i].to.equals(ferryTerminals[destinationInt - 1])) {
+                    if (ferry.from.equals(ferryTerminals[sourceInt - 1]) && ferry.to.equals(ferryTerminals[destinationInt - 1])) {
 
                         System.out.println();
-                        System.out.println(ferries[i].ferryNo + " " + ferries[i].ferryName);
+                        System.out.println(ferry.ferryNo + " " + ferry.ferryName);
 
                     }
 
@@ -534,6 +539,208 @@ class TicketManagement{
             System.out.println("\nPress Enter to continue.");
             sc.nextLine();
         }
+    }
+
+
+    void modifyTicket(Bookings[] bookings) {
+        Scanner sc = new Scanner(in);
+
+        if (book) {
+
+            int newFerryNo;
+            String newDate;
+            int newNumberOfPassengers;
+            boolean newParking;
+
+
+            for (Bookings booking : bookings) {
+
+                if(booking.username.equals(username)){
+
+                    newFerryNo = booking.ferryNo;
+                    newDate = booking.date;
+                    newNumberOfPassengers = booking.noOfPassengers;
+                    newParking = booking.parking;
+
+                    printTicket(
+                            booking.username,
+                            booking.ferryNo,
+                            booking.ferryName,
+                            booking.date,
+                            booking.noOfPassengers,
+                            booking.from,
+                            booking.to,
+                            booking.departureTime,
+                            booking.parking,
+                            booking.price
+                    );
+                    break;
+                }
+            }
+
+            System.out.println("\nThis is your previous booking.");
+            System.out.println("\nPress Enter to continue.");
+            sc.nextLine();
+
+            System.out.println("Do you want to change ferry number? y/n: ");
+            if("y".equals(sc.nextLine())){
+                System.out.println("Enter new ferry number: ");
+                newFerryNo = sc.nextInt();
+            }
+            System.out.println("Do you want to change date? y/n: ");
+            if("y".equals(sc.nextLine())){
+
+                int year = 0;
+                int month = 0;
+                int monthDate = 0;
+                boolean notValid = true;
+
+                while (notValid) {
+
+                    System.out.println("Enter new date:");
+
+                    System.out.println("Enter year: ");
+                    year = sc.nextInt();
+                    sc.nextLine();
+                    System.out.println("Enter Month: ");
+                    month = sc.nextInt();
+                    sc.nextLine();
+                    System.out.println("Enter Date: ");
+                    monthDate = sc.nextInt();
+                    sc.nextLine();
+
+
+                    notValid = month > 0 && month <= 12;
+
+
+                    if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+                        if (monthDate <= 31)
+                            notValid = false;
+                    }
+                    else if(month == 2){
+                        if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
+                            if(monthDate <= 29)
+                                notValid = false;
+                        }
+                        else {
+                            if (monthDate <= 28)
+                                notValid = false;
+                        }
+                    }
+                    else {
+                        if (monthDate <= 30)
+                            notValid = false;
+                    }
+
+                    if (notValid) {
+
+                        System.out.println("\nThe Date you entered is invalid.");
+
+                        System.out.println("\nEnter date again!");
+                        System.out.println("\nPress Enter");
+                        sc.nextLine();
+
+                    }
+
+                }
+
+                newDate = (monthDate + "-" + month + "-" + year);
+            }
+
+
+            System.out.println("Do you want to change number of passengers? y/n: ");
+            if("y".equals(sc.nextLine())){
+                System.out.println("Enter new number of passengers: ");
+                newNumberOfPassengers = sc.nextInt();
+            }
+            System.out.println("Do you want to change parking? y/n: ");
+            if("y".equals(sc.nextLine())){
+                System.out.println("Enter new parking: ");
+                newParking = sc.nextBoolean();
+            }
+
+
+
+
+
+
+        }
+        else {
+            System.out.println("\nYou have no tickets booked.");
+
+            System.out.println("\nPress Enter to continue.");
+            sc.nextLine();
+        }
+
+
+    }
+
+
+    void cancelTicket(Bookings[] bookings){
+
+        Scanner sc = new Scanner(System.in);
+
+        if(book) {
+
+            Bookings[] newBookings = new Bookings[bookings.length-1];
+            int ind = -1;
+
+            for (int i = 0; i < bookings.length; i++){
+                if(bookings[i].username.equals(username)){
+                    ind = i;
+                    break;
+                }
+            }
+
+            for(int i = 0; i < bookings.length; i++){
+
+                if(i < ind){
+                    newBookings[i] = bookings[i];
+                }
+                else if(i > ind){
+                    newBookings[i-1] = bookings[i];
+                }
+
+            }
+
+            System.out.println("Do you really want to cancel your ticket? y/n: ");
+            if("y".equals(sc.nextLine())) {
+
+                try (
+                        FileWriter fw = new FileWriter("Data/booking.csv");
+                        BufferedWriter bw = new BufferedWriter(fw);
+                        PrintWriter out = new PrintWriter(bw)
+                ) {
+
+                    out.print("Username,Ferry No.,Ferry name,Date,No of passenger,From,To,Depature Time,Parking,Price");
+
+                    for (Bookings b : newBookings) {
+
+                        out.print("\n" + b.username + "," + b.ferryNo + "," + b.ferryName + "," + b.date + "," + b.noOfPassengers + "," +
+                                b.from + "," + b.to + "," + b.departureTime + "," + b.parking + "," + b.price);
+
+                    }
+
+                    book = false;
+
+                    System.out.println("\nTicket Cancellation Successful");
+
+                } catch (IOException e) {
+                    System.out.println("Error writing to logins.csv: " + e.getMessage());
+                }
+            }
+
+            System.out.println("\n\nPress Enter to continue.");
+            sc.nextLine();
+
+        }
+        else {
+                System.out.println("\nYou have no tickets booked.");
+
+                System.out.println("\nPress Enter to continue.");
+                sc.nextLine();
+            }
+
     }
 
 
