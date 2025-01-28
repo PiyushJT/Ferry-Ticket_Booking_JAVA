@@ -1,17 +1,17 @@
-Ferry Name,Flight no.,Depature Time,From,To,Price,Arrival at destination,seat available
-Deccan Odyssey,10113,6.47 AM,Surat,Surat,200,9.30 AM,36
-Maharaja's Express,20983,7.20 AM,Madras,Madras,2998,4.00 AM,45
-Valsad local,10012,7.15 AM,Pardi,Pardi,49,8.30 AM,67
-Dakshin guj. Express,20019,7.20 AM,Terminal 1,Terminal 2,78,12.00 AM,93
-Valsad local 2,10013,7.55 AM,Udwada,Udwada,39,9.00 AM,68
-Maharani's Superfast,10983,9.00 AM,Nagpur,Nagpur,569,3.00 PM,67
-Praja's Vahan,19994,8.55 AM,Noida,Noida,776,11.00 AM,149
-National Tourist,22002,11.05 AM,Surat,Surat,300,2.00 PM,90
-Deccan Odyssey 2,10114,11.50 AM,New Delhi,New Delhi,1900,2.00 PM,126
-Saurastra Superfast,20222,1.20 PM,Veraval,Veraval,996,2.00 AM,111
-West India express,10010,1.30 PM,Jaipur,Jaipur,890,4.00 AM,58
-Valsad Local 3,10014,1.35 PM,Valsad,Valsad,53,3.45 PM,79
-Akhri safar,20028,2.10 PM,Kota,Kota,21,3.00 AM,72
-tivragati rail,10101,3.30 PM,Haridwar,Haridwar,1289,12.00 PM,108
-Vande Bharat,11111,4.40 PM,Terminal 2,Terminal 9,3002,4.00 AM,132
-guj. Express,20019,7.20 AM,Terminal 2,Terminal 7,78,12.00 AM,93
+Ferry Name,Flight no.,Depature Time,From,To,Price,Arrival at destination
+Deccan Odyssey,10113,6.47 AM,Surat,Surat,200,9.30 AM
+Maharaja's Express,20983,7.20 AM,Madras,Madras,2998,4.00 AM
+Valsad local,10012,7.15 AM,Pardi,Pardi,49,8.30 AM
+Dakshin guj. Express,20019,7.20 AM,Terminal 1,Terminal 2,78,12.00 AM
+Valsad local 2,10013,7.55 AM,Udwada,Udwada,39,9.00 AM
+Maharani's Superfast,10983,9.00 AM,Nagpur,Nagpur,569,3.00 PM
+Praja's Vahan,19994,8.55 AM,Noida,Noida,776,11.00 AM
+National Tourist,22002,11.05 AM,Surat,Surat,300,2.00 PM
+Deccan Odyssey 2,10114,11.50 AM,New Delhi,New Delhi,1900,2.00 PM
+Saurastra Superfast,20222,1.20 PM,Veraval,Veraval,996,2.00 AM
+West India express,10010,1.30 PM,Jaipur,Jaipur,890,4.00 AM
+Valsad Local 3,10014,1.35 PM,Valsad,Valsad,53,3.45 PM
+Akhri safar,20028,2.10 PM,Kota,Kota,21,3.00 AM
+tivragati rail,10101,3.30 PM,Haridwar,Haridwar,1289,12.00 PM
+Vande Bharat,11111,4.40 PM,Terminal 2,Terminal 9,3002,4.00 AM
+guj. Express,20019,7.20 AM,Terminal 2,Terminal 7,78,12.00 AM
