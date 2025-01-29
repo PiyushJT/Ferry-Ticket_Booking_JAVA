@@ -1,27 +1,30 @@
-import static java.lang.System.in;
-import java.io.*;
-import java.nio.file.*;
-import java.util.*;
+import java.io.*; // Input and Output in External files.
+import java.nio.file.*; // Paths for input and output.
+import java.util.*; // Scanner for input.
 
 
 class Project {
-
 
     public static void main(String[] args) {
 
         TicketManagement tM = new TicketManagement();
 
+
+        // Load all the files
         Logins[] logins = loadLogins();
         Ferries[] ferries = loadFerries();
         Bookings[] bookings = loadBookings();
         Feedback[] feedback = loadFeedback();
 
 
-        Scanner sc = new Scanner(in);
+        // Welcoming the User
+        Scanner sc = new Scanner(System.in);
         System.out.println("==============================================");
         System.out.println("||\t\tFerry Reservation\t\t||");
         System.out.println("==============================================");
 
+
+        // Main Menu
         String input = "0";
 
         while (!input.equals("8")) {
@@ -44,6 +47,8 @@ class Project {
 
             System.out.print("Please select one of these: ");
 
+
+            // Sorting of functionalities based on input
             input = sc.nextLine();
 
             switch (input) {
@@ -79,24 +84,41 @@ class Project {
             }
         }
     }
+
+
+    // Method to load all login data.
     static Logins[] loadLogins() {
 
+
+        // Trying to read Logins file
         try {
 
-            String fileContent = new String(Files.readAllBytes(Paths.get("Data/logins.csv")));
+            // Store all the data of the file in fileContent.
+            String fileContent = new String(
+                    Files.readAllBytes(Paths.get("Data/logins.csv"))
+            );
 
+
+            // Removing first line as it is the header.
             fileContent = fileContent.substring(
                     fileContent.indexOf("\n") + 1
             );
 
+
+            // Array of all the logins. (all data of a user is not differentiated -> username, email, password)
             String[] rawLogins = fileContent.split("\n");
 
+
+            // Declaring the array of objects of Logins.
             Logins[] logins = new Logins[rawLogins.length];
 
+
+            // Filling the data in array.
             for (int i = 0; i < rawLogins.length; i++) {
 
                 String[] login = rawLogins[i].split(",");
 
+                // Creating the new object.
                 logins[i] = new Logins();
                 logins[i].username = login[0];
                 logins[i].email = login[1];
@@ -105,29 +127,44 @@ class Project {
             }
 
             return logins;
-
         }
-        catch (IOException e) {
+
+        // If the file is not available or cannot be read.
+        catch (Exception e) {
             System.err.println("Error reading the file: " + e.getMessage());
             return new Logins[0];
         }
     }
 
+
+    // Method to load all ferries data
     static Ferries[] loadFerries() {
 
-
+        // Trying to read Ferries file
         try {
 
-            String fileContent = new String(Files.readAllBytes(Paths.get("Data/schedule.csv")));
+            // Store all the data of the file in fileContent.
+            String fileContent = new String(
+                    Files.readAllBytes(Paths.get("Data/schedule.csv"))
+            );
 
+
+            // Removing first line as it is the header.
             fileContent = fileContent.substring(
                     fileContent.indexOf("\n") + 1
             );
 
+
+            // Array of all the Ferries. (all data of a ferry is not differentiated ->
+            // ferryNo, ferryName, from, etc)
             String[] rawFerries = fileContent.split("\n");
 
+
+            // Declaring the array of objects of Ferries.
             Ferries[] ferries = new Ferries[rawFerries.length];
 
+
+            // Filling the data in array.
             for (int i = 0; i < rawFerries.length; i++) {
 
                 String[] ferry = rawFerries[i].split(",");
@@ -146,28 +183,44 @@ class Project {
             return ferries;
 
         }
+
+        // If the file is not available or not readable
         catch (Exception e) {
             System.out.println("Error reading the file schedules" + e.getMessage());
-
             return new Ferries[0];
         }
 
     }
 
+
+    // Method to load all bookings data
     static Bookings[] loadBookings() {
 
+
+        // Trying to read Bookings file
         try {
 
-            String fileContent = new String(Files.readAllBytes(Paths.get("Data/booking.csv")));
+            // Store all the data of the file in fileContent.
+            String fileContent = new String(
+                    Files.readAllBytes(Paths.get("Data/booking.csv"))
+            );
 
+
+            // Removing the first line as it is the header
             fileContent = fileContent.substring(
                     fileContent.indexOf("\n") + 1
             );
 
+            // Array of all the bookings. (all data of a booking is not differentiated ->
+            // username, ferryNo, etc)
             String[] rawBookings = fileContent.split("\n");
 
+
+            // Declaring the array of objects of Bookings.
             Bookings[] bookings = new Bookings[rawBookings.length];
 
+
+            // Filling the data in array.
             for (int i = 0; i < rawBookings.length; i++) {
 
                 String[] booking = rawBookings[i].split(",");
@@ -189,27 +242,42 @@ class Project {
             return bookings;
 
         }
-        catch (IOException e) {
+
+        // If the file is not available or not readable
+        catch (Exception e) {
             System.err.println("Error reading the file: " + e.getMessage());
             return new Bookings[0];
         }
     }
 
+
+    // Method to load all the feedbacks
     static Feedback[] loadFeedback() {
 
 
+        // Trying to read Feedbacks file
         try {
 
-            String fileContent = new String(Files.readAllBytes(Paths.get("Data/feedback.csv")));
+            // Store all the data of the file in fileContent.
+            String fileContent = new String(
+                    Files.readAllBytes(Paths.get("Data/feedback.csv"))
+            );
 
+
+            // Removing the first line as it is the header
             fileContent = fileContent.substring(
                     fileContent.indexOf("\n") + 1
             );
 
+            // Array of all the feedbacks. (all data of a feedback is not differentiated ->
             String[] rawFeedback = fileContent.split("\n");
 
+
+            // Declaring the array of objects of Feedbacks.
             Feedback[] feedbacks = new Feedback[rawFeedback.length];
 
+
+            // Filling the data in array.
             for (int i = 0; i < rawFeedback.length; i++) {
 
                 String[] feedback = rawFeedback[i].split(",");
@@ -224,7 +292,9 @@ class Project {
             return feedbacks;
 
         }
-        catch (IOException e) {
+
+        // If the file is not available or not readable
+        catch (Exception e) {
             System.err.println("Error reading the file: " + e.getMessage());
             return new Feedback[0];
         }
@@ -234,6 +304,7 @@ class Project {
 }
 
 
+// Class to manage the Ticket Reservation System
 class TicketManagement{
 
     String[] ferryTerminals = {
@@ -254,16 +325,23 @@ class TicketManagement{
     String username = "piyush";
 
 
-    void loginOrSignup(Logins[] logins, Bookings[] bookings) {
 
-        Scanner sc = new Scanner(in);
+    // Method to sort user into Login or Signup
+    void loginOrSignup(
+            Logins[] logins,
+            Bookings[] bookings
+    ) {
 
+        Scanner sc = new Scanner(System.in);
+
+        // Menu
         System.out.println("\n1) Login");
         System.out.println("2) Sign up");
         System.out.print("\nPlease select one of these: ");
 
         String choice = sc.nextLine();
 
+        // Sorting of functionalities based on input
         if (choice.equals("1"))
             login(logins, bookings);
         else if (choice.equals("2"))
@@ -278,30 +356,44 @@ class TicketManagement{
     }
 
 
-    void login(Logins[] logins, Bookings[] bookings) {
+    // Method to login
+    void login(
+            Logins[] logins,
+            Bookings[] bookings
+    ) {
 
-        Scanner sc = new Scanner(in);
+        Scanner sc = new Scanner(System.in);
 
+        // Getting the Credentials
         System.out.print("Enter your Username: ");
         String inputUsername = sc.next();
         System.out.print("Enter your Password: ");
         String inputPassword = sc.next();
         sc.nextLine();
 
+
+        // Traversing through all the logins to check if the credentials are correct
         for (Logins l : logins) {
 
+            // If the user is found
             if (inputUsername.equals(l.username) && inputPassword.equals(l.password)) {
                 login = true;
                 username = l.username;
-                System.out.println("\n\nLogin Successful.");
+
+                // Check if the user has already booked any tickets or not
                 book = checkBookingStatus(username, bookings);
+
+
+                System.out.println("\n\nLogin Successful.");
                 System.out.println("\nPress Enter to continue! ");
                 sc.nextLine();
-                return;
+
+                return; // End the function if the user is found
             }
 
         }
 
+        // If the user is not found
         System.out.println("\nUsername or password invalid.");
         System.out.println("\nPress Enter to continue.");
         sc.nextLine();
@@ -309,10 +401,13 @@ class TicketManagement{
     }
 
 
+    // Method to signup
     void signUp() {
 
-        Scanner sc = new Scanner(in);
+        Scanner sc = new Scanner(System.in);
 
+
+        // Taking the credentials
         System.out.println("Please fill these details");
         System.out.print("Username: ");
         String newUsername = sc.nextLine();
@@ -321,100 +416,143 @@ class TicketManagement{
         System.out.print("Create a password: ");
         String password = sc.nextLine();
 
+
+        // If all the credentials are not empty -> then only continue
         if (!(newUsername.isEmpty() || email.isEmpty() || password.isEmpty())) {
 
+
+            // Trying to write the new user in the logins file
             try (
 
+                    // fw is used as a dependency to write in the file.
                     FileWriter fw = new FileWriter("Data/logins.csv", true);
+
+                    // bw is used to write in the file in batches (so that it does the job faster).
                     BufferedWriter bw = new BufferedWriter(fw);
+
+                    // out is used to write in the file.
                     PrintWriter out = new PrintWriter(bw)
 
             ) {
+
+                // Actually writing at the end of the file.
                 out.print("\n" + newUsername + "," + email + "," + password);
 
-                username = newUsername;
+
+                // Updating the login status
                 login = true;
+                username = newUsername;
+
 
                 System.out.println("\nSign up and Login success\n");
                 System.out.println("Press Enter to continue!");
                 sc.nextLine();
 
-            } catch (IOException e) {
+            }
+
+            // If the file is not available or cannot be written
+            catch (Exception e) {
                 System.out.println("Error writing to logins.csv: " + e.getMessage());
             }
-        } else {
+        }
+
+        else {
             System.out.println("\nThe details must not be empty..\n");
         }
     }
 
 
-    void searchFerries(Ferries[] ferries) {
+    // Method to search ferries from (source & destination)
+    void searchFerries(
+            Ferries[] ferries
+    ) {
 
+
+        // Printing the list of ferry terminals to search source & destination.
         System.out.println("List of Ferry terminals");
 
         for(int i = 0; i < ferryTerminals.length; i++){
             System.out.println(i+1 + ". " + ferryTerminals[i]);
         }
 
-        Scanner sc = new Scanner(in);
+
+        // Taking the source & destination
+        Scanner sc = new Scanner(System.in);
         System.out.print("\nEnter your source number from above: ");
         String source = sc.nextLine();
         System.out.print("Enter your destination number from above: ");
         String destination = sc.nextLine();
 
 
+
+        // Trying to convert the source & destination to integer
         try {
 
+            // Converting the input value to integer
             int sourceInt = Integer.parseInt(source);
             int destinationInt = Integer.parseInt(destination);
 
+
+            // Checking if the source & destination are valid or not
             boolean isValidSAndD = sourceInt < ferryTerminals.length &&
                     sourceInt >= 0 &&
                     destinationInt < ferryTerminals.length &&
                     destinationInt >= 0;
 
+
+            // If it is valid
             if (isValidSAndD) {
 
-
+                // Printing the list of ferries where the source & destination are same
                 for (Ferries ferry : ferries) {
 
                     if (ferry.from.equals(ferryTerminals[sourceInt - 1]) && ferry.to.equals(ferryTerminals[destinationInt - 1])) {
 
                         System.out.println();
                         System.out.println(ferry.ferryNo + " " + ferry.ferryName);
-
                     }
-
                 }
+
 
                 System.out.println("\n\nPress Enter to continue!");
                 sc.nextLine();
 
 
-            } else {
+            }
+            else {
                 System.out.println("Enter only valid value in given range..");
             }
-        } catch (Exception e){
+        }
+        catch (Exception e){
 
             System.out.println("Entered values are not valid. \nEnter only Integer value in given range..");
             System.out.println("Press Enter to continue!");
             sc.nextLine();
 
         }
-
-
     }
 
 
-    void bookTicket(Ferries[] ferries) {
-        Scanner sc = new Scanner(in);
+    // Method to book tickets
+    void bookTicket(
+            Ferries[] ferries
+    ) {
+
+        Scanner sc = new Scanner(System.in);
+
+
+        // User can only book a ticket if s/he is logged in
         if (login) {
 
+
+            // Taking the booking details
             System.out.println("Enter Ferry number: ");
             int ferryNo = sc.nextInt();
             System.out.println("Enter number of tickets to book: ");
             int tickets = sc.nextInt();
 
+
+            // Getting (valid) date
             int year = 0;
             int month = 0;
             int monthDate = 0;
@@ -469,18 +607,24 @@ class TicketManagement{
 
             }
 
+
+            // whether user wants parking facility or not.
             System.out.println("Do you want parking (extra 1000/-) y/n: ");
             boolean parking = "y".equals(sc.nextLine());
 
 
+            // Predefining some variables for ticket booking
             String ferryName = "";
             String departureTime = "";
             String from = "";
             String to = "";
             int price = 0;
 
+
+            // searching for the ferry from ferryNo.
             for(Ferries ferry : ferries){
 
+                // Booking the ticket if the ferryNo is found.
                 if (ferry.ferryNo == ferryNo){
                     ferryName = ferry.ferryName;
                     departureTime = ferry.departureTime;
@@ -491,23 +635,49 @@ class TicketManagement{
                 }
 
             }
+
+
+            // If the user has entered invalid ferryNo. -> cancel the booking process.
+            if(ferryName.isEmpty()){
+
+                System.out.println("The ferry number is invalid");
+
+                System.out.println("\n\nPress enter to continue..");
+                sc.nextLine();
+                return;
+
+            }
+
+
             String date = (monthDate + "-" + month + "-" + year);
 
+
+            // Printing the details entered by user to confirm the booking
             printTicket(username, ferryNo, ferryName, date, tickets, from, to, departureTime, parking, price);
 
+
+            // Asking user to confirm or cancel the booking.
             System.out.println("Enter y to confirm this ticket.");
             boolean confirm = sc.nextLine().equals("y");
 
+
+            // If the user confirms the booking.
             if(confirm) {
+
+                // Trying to write the booking details in the booking file.
                 try (
                         FileWriter fw = new FileWriter("Data/booking.csv", true);
                         BufferedWriter bw = new BufferedWriter(fw);
                         PrintWriter out = new PrintWriter(bw)
                 ) {
 
+
+                    // Actually writing at the end of the file.
                     out.print("\n" + username + "," + ferryNo + "," + ferryName + "," + date + "," + tickets + "," +
                             from + "," + to + "," + departureTime + "," + parking);
 
+
+                    // Changing the booking status to true.
                     book = true;
 
                     System.out.println("\n\nTicket booked successfully.");
@@ -515,7 +685,10 @@ class TicketManagement{
                     System.out.println("Press Enter to continue!");
                     sc.nextLine();
 
-                } catch (IOException e) {
+                }
+
+                // If the file is not available or cannot be written
+                catch (Exception e) {
                     System.out.println("Error writing to booking.csv: " + e.getMessage());
                 }
             }
@@ -524,8 +697,10 @@ class TicketManagement{
                 System.out.println("You can give feedback on this platform at menu option 7.");
             }
 
+        }
 
-        } else {
+        // If the user has not logged in
+        else {
             System.out.println("\nYou first have to login..\n");
             System.out.println("Press Enter to continue!");
             sc.nextLine();
@@ -533,13 +708,22 @@ class TicketManagement{
     }
 
 
-    void viewTicket(Bookings[] bookings) {
+    // Method to view ticket
+    void viewTicket(
+            Bookings[] bookings
+    ) {
 
-        Scanner sc = new Scanner(in);
+        Scanner sc = new Scanner(System.in);
 
+
+        // If the user has booked any tickets
         if (book) {
+
+            // Searching for the user's ticket
             for (Bookings booking : bookings) {
 
+
+                // When found -> print
                 if(booking.username.equals(username)){
 
                     printTicket(
@@ -558,28 +742,33 @@ class TicketManagement{
                 }
             }
 
-            System.out.println("\nPress Enter to continue.");
-            sc.nextLine();
-
         }
         else {
             System.out.println("\nYou have no tickets booked.");
 
-            System.out.println("\nPress Enter to continue.");
-            sc.nextLine();
         }
+        System.out.println("\nPress Enter to continue.");
+        sc.nextLine();
     }
 
 
-    void cancelTicket(Bookings[] bookings){
+    // Method to cancel ticket
+    void cancelTicket(
+            Bookings[] bookings
+    ){
 
         Scanner sc = new Scanner(System.in);
 
+
+        // If the user has booked the ticket -> then only he can cancel it (huhh obvious :/ )
         if(book) {
 
+            // Creating a new array with 1 length less
             Bookings[] newBookings = new Bookings[bookings.length-1];
             int ind = -1;
 
+
+            // Getting the index of the user's ticket
             for (int i = 0; i < bookings.length; i++){
                 if(bookings[i].username.equals(username)){
                     ind = i;
@@ -587,6 +776,8 @@ class TicketManagement{
                 }
             }
 
+
+            // Copying all the data except the user's ticket
             for(int i = 0; i < bookings.length; i++){
 
                 if(i < ind){
@@ -598,29 +789,39 @@ class TicketManagement{
 
             }
 
+
+            // Confirming the cancellation
             System.out.println("Do you really want to cancel your ticket? y/n: ");
             if("y".equals(sc.nextLine())) {
 
+
+                // Trying to write the cancellation details in the booking file.
                 try (
-                        FileWriter fw = new FileWriter("Data/booking.csv");
+                        FileWriter fw = new FileWriter("Data/booking.csv"); // overwriting
                         BufferedWriter bw = new BufferedWriter(fw);
                         PrintWriter out = new PrintWriter(bw)
                 ) {
 
-                    out.print("Username,Ferry No.,Ferry name,Date,No of passenger,From,To,Depature Time,Parking,Price");
+                    // Actually writing at the end of the file.
+                    out.print("Username,Ferry No.,Ferry name,Date,No of passenger,From,To,Departure Time,Parking,Price");
 
+
+                    // Writing the new booking details (overwriting the old file)
                     for (Bookings b : newBookings) {
 
                         out.print("\n" + b.username + "," + b.ferryNo + "," + b.ferryName + "," + b.date + "," + b.noOfPassengers + "," +
                                 b.from + "," + b.to + "," + b.departureTime + "," + b.parking + "," + b.price);
-
                     }
 
+                    // Changing the booking status to false.
                     book = false;
 
                     System.out.println("\nTicket Cancellation Successful");
 
-                } catch (IOException e) {
+                }
+
+                // If the file is not available or cannot be written
+                catch (Exception e) {
                     System.out.println("Error writing to logins.csv: " + e.getMessage());
                 }
             }
@@ -639,9 +840,12 @@ class TicketManagement{
     }
 
 
+    // Method to give feedback
     void giveFeedback() {
-        Scanner sc = new Scanner(in);
 
+        Scanner sc = new Scanner(System.in);
+
+        // User can only give feedback if s/he is logged in
         if (login) {
 
             System.out.print("\nEnter your Feedback here: \n\n");
@@ -651,6 +855,7 @@ class TicketManagement{
 
             System.out.println();
 
+            // Getting valid rating from 0 to 10.
             while (rating >10 || rating < 0) {
                 System.out.println("Give rating from 0 to 10");
                 rating = sc.nextInt();
@@ -661,21 +866,27 @@ class TicketManagement{
             }
 
 
+            // Trying to write the feedback details in the feedback file.
             try (
                     FileWriter fw = new FileWriter("Data/feedback.csv", true);
                     BufferedWriter bw = new BufferedWriter(fw);
                     PrintWriter out = new PrintWriter(bw)
             ) {
-                out.print("\n" + username + "," + feedback + "," + rating);
-                System.out.println("Feedback submitted successfully.");
 
+                // Actually writing at the end of the file.
+                out.print("\n" + username + "," + feedback + "," + rating);
+
+
+                System.out.println("Feedback submitted successfully.");
                 System.out.println("Thank you for your valuable feedback.");
 
                 System.out.println("\n\nPress Enter to continue.");
                 sc.nextLine();
 
             }
-            catch (IOException e) {
+
+            // If the file is not available or cannot be written
+            catch (Exception e) {
                 System.out.println("Error writing to feedback.csv: " + e.getMessage());
             }
 
@@ -691,20 +902,31 @@ class TicketManagement{
     }
 
 
-    void adminLogin(Logins[] logins, Bookings[] bookings, Ferries[] ferries, Feedback[] feedback) {
+    // Method for admin login
+    void adminLogin(
+            Logins[] logins,
+            Bookings[] bookings,
+            Ferries[] ferries,
+            Feedback[] feedback
+    ) {
 
-        Scanner sc = new Scanner(in);
+        Scanner sc = new Scanner(System.in);
 
+        // Admin Password
         String password = "Admin@1900!";
 
+        // Taking the admin password
         System.out.println("Enter Password: ");
         String inputPass = sc.nextLine();
 
 
+        // Validating the password
         if (inputPass.equals(password)) {
 
             String inpt = "";
 
+
+            // Menu
             while (!inpt.equals("5")) {
 
                 System.out.println("""
@@ -720,6 +942,7 @@ class TicketManagement{
 
                 inpt = sc.nextLine();
 
+                // Sorting the functionalities of admin
                 switch (inpt) {
                     case "1":
                         showLogins(logins);
@@ -745,18 +968,16 @@ class TicketManagement{
                 }
 
             }
-        }
-        else{
-
-                System.out.println("\nPassword invalid..");
-                System.out.println("\nPress Enter to continue.");
-                sc.nextLine();
-
-            }
-
+        } else {
+            System.out.println("\nPassword invalid..");
+            System.out.println("\nPress Enter to continue.");
+            sc.nextLine();
         }
 
+    }
 
+
+    // Method to print ticket details
     void printTicket(
             String username,
             int FerryNo,
@@ -793,7 +1014,12 @@ class TicketManagement{
 
     }
 
-    boolean checkBookingStatus(String username, Bookings[] bookings){
+
+    // Method to check if the user has booked any tickets or not
+    boolean checkBookingStatus(
+            String username,
+            Bookings[] bookings
+    ){
 
         for (Bookings booking : bookings) {
 
@@ -807,9 +1033,10 @@ class TicketManagement{
     }
 
 
+    // Displaying all login data
     void showLogins(Logins[] logins){
 
-        Scanner sc = new Scanner(in);
+        Scanner sc = new Scanner(System.in);
 
         for(Logins login : logins){
 
@@ -827,9 +1054,10 @@ class TicketManagement{
     }
 
 
+    // Displaying all booking data
     void showBookings(Bookings[] bookings){
 
-        Scanner sc = new Scanner(in);
+        Scanner sc = new Scanner(System.in);
 
         for(Bookings booking : bookings){
 
@@ -854,9 +1082,10 @@ class TicketManagement{
     }
 
 
+    // Displaying all schedules
     void showSchedule(Ferries[] ferries){
 
-        Scanner sc = new Scanner(in);
+        Scanner sc = new Scanner(System.in);
 
         for(Ferries ferry : ferries){
 
@@ -878,10 +1107,11 @@ class TicketManagement{
     }
 
 
+    // Displaying all feedbacks
     void showFeedback(Feedback[] feedbacks){
 
 
-        Scanner sc = new Scanner(in);
+        Scanner sc = new Scanner(System.in);
 
         float totalRating = 0;
 
@@ -897,6 +1127,8 @@ class TicketManagement{
 
         }
 
+
+        // Printing the average rating
         System.out.println();
         System.out.println("Average Rating is " + totalRating/feedbacks.length);
 
