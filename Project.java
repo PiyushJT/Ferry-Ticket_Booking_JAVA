@@ -5,16 +5,21 @@ import java.util.*; // Scanner for input.
 
 class Project {
 
+    static Logins[] logins;
+    static Ferries[] ferries;
+    static Bookings[] bookings;
+    static Feedback[] feedback;
+
     public static void main(String[] args) {
 
         TicketManagement tM = new TicketManagement();
 
 
         // Load all the files
-        Logins[] logins = loadLogins();
-        Ferries[] ferries = loadFerries();
-        Bookings[] bookings = loadBookings();
-        Feedback[] feedback = loadFeedback();
+        logins = loadLogins();
+        ferries = loadFerries();
+        bookings = loadBookings();
+        feedback = loadFeedback();
 
 
         // Welcoming the User
@@ -71,7 +76,7 @@ class Project {
                     tM.giveFeedback();
                     break;
                 case "7":
-                    tM.adminLogin(logins, bookings, ferries, feedback);
+                    tM.adminLogin();
                 case "8":
                     System.out.println("\n\nThank you!");
                     break;
@@ -167,7 +172,7 @@ class Project {
             // Filling the data in array.
             for (int i = 0; i < rawFerries.length; i++) {
 
-                String[] ferry = rawFerries[i].split(",");
+                String[] ferry = rawFerries[i].split(";");
 
                 ferries[i] = new Ferries();
                 ferries[i].ferryName = ferry[0];
@@ -308,21 +313,26 @@ class Project {
 class TicketManagement{
 
     String[] ferryTerminals = {
-            "Terminal 1",
-            "Terminal 2",
-            "Terminal 3",
-            "Terminal 4",
-            "Terminal 5",
-            "Terminal 6",
-            "Terminal 7",
-            "Terminal 8",
-            "Terminal 9",
-            "Terminal 10"
+            "Piraeus Ferry, Greece",
+            "Genoa Ferry, Italy",
+            "San Francisco Ferry, USA",
+            "Tokyo Ferry, Japan",
+            "Istanbul Ferry, Turkey",
+            "Dover Ferry, UK",
+            "Calais Ferry, France",
+            "Helsinki Ferry, Finland",
+            "Sydney Ferry, Australia",
+            "Naples Ferry, Italy",
+            "Barcelona Ferry, Spain",
+            "Busan Ferry, South Korea",
+            "Osaka Ferry, Japan",
+            "Shanghai Ferry, China",
+            "Vancouver Ferry, Canada"
     };
 
-    boolean login = true;
-    boolean book = true;
-    String username = "piyush";
+    boolean login = false;
+    boolean book = false;
+    String username;
 
 
 
@@ -494,9 +504,9 @@ class TicketManagement{
 
 
             // Checking if the source & destination are valid or not
-            boolean isValidSAndD = sourceInt < ferryTerminals.length &&
+            boolean isValidSAndD = sourceInt <= ferryTerminals.length &&
                     sourceInt >= 0 &&
-                    destinationInt < ferryTerminals.length &&
+                    destinationInt <= ferryTerminals.length &&
                     destinationInt >= 0;
 
 
@@ -509,7 +519,8 @@ class TicketManagement{
                     if (ferry.from.equals(ferryTerminals[sourceInt - 1]) && ferry.to.equals(ferryTerminals[destinationInt - 1])) {
 
                         System.out.println();
-                        System.out.println(ferry.ferryNo + " " + ferry.ferryName);
+                        System.out.println(ferry.ferryNo + "  " + ferry.ferryName + "  $" + ferry.price + "/person");
+
                     }
                 }
 
@@ -548,6 +559,25 @@ class TicketManagement{
             // Taking the booking details
             System.out.println("Enter Ferry number: ");
             int ferryNo = sc.nextInt();
+            sc.nextLine();
+
+            boolean isferryValid = false;
+
+            for(Ferries ferry : ferries){
+                if(ferry.ferryNo == ferryNo){
+                    isferryValid = true;
+                    break;
+                }
+            }
+
+            if (!isferryValid){
+                System.out.println("The ferry number is invalid");
+
+                System.out.println("\n\nPress enter to continue..");
+                sc.nextLine();
+                return;
+            }
+
             System.out.println("Enter number of tickets to book: ");
             int tickets = sc.nextInt();
 
@@ -609,7 +639,7 @@ class TicketManagement{
 
 
             // whether user wants parking facility or not.
-            System.out.println("Do you want parking (extra 1000/-) y/n: ");
+            System.out.println("Do you want parking (extra $100/-) y/n: ");
             boolean parking = "y".equals(sc.nextLine());
 
 
@@ -633,18 +663,6 @@ class TicketManagement{
                     price = ferry.price * tickets + (parking?1000:0);
                     break;
                 }
-
-            }
-
-
-            // If the user has entered invalid ferryNo. -> cancel the booking process.
-            if(ferryName.isEmpty()){
-
-                System.out.println("The ferry number is invalid");
-
-                System.out.println("\n\nPress enter to continue..");
-                sc.nextLine();
-                return;
 
             }
 
@@ -674,7 +692,7 @@ class TicketManagement{
 
                     // Actually writing at the end of the file.
                     out.print("\n" + username + "," + ferryNo + "," + ferryName + "," + date + "," + tickets + "," +
-                            from + "," + to + "," + departureTime + "," + parking);
+                            from + "," + to + "," + departureTime + "," + parking + "," + price);
 
 
                     // Changing the booking status to true.
@@ -903,17 +921,17 @@ class TicketManagement{
 
 
     // Method for admin login
-    void adminLogin(
-            Logins[] logins,
-            Bookings[] bookings,
-            Ferries[] ferries,
-            Feedback[] feedback
-    ) {
+    void adminLogin() {
+
+        Logins[] logins = Project.loadLogins();
+        Ferries[] ferries = Project.loadFerries();
+        Bookings[] bookings = Project.loadBookings();
+        Feedback[] feedback = Project.loadFeedback();
 
         Scanner sc = new Scanner(System.in);
 
         // Admin Password
-        String password = "Admin@1900!";
+        String password = "Admin@99!";
 
         // Taking the admin password
         System.out.println("Enter Password: ");
@@ -1006,7 +1024,7 @@ class TicketManagement{
         System.out.println("Parking opted: " + Parking);
 
         System.out.println();
-        System.out.println("The ticket fare is " + price);
+        System.out.println("The ticket fare is $" + price);
 
         System.out.println();
         System.out.println();
