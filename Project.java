@@ -67,10 +67,10 @@ class Project {
                     tM.bookTicket(ferries);
                     break;
                 case "4":
-                    tM.viewTicket(bookings);
+                    tM.viewTicket();
                     break;
                 case "5":
-                    tM.cancelTicket(bookings);
+                    tM.cancelTicket();
                     break;
                 case "6":
                     tM.giveFeedback();
@@ -228,7 +228,7 @@ class Project {
             // Filling the data in array.
             for (int i = 0; i < rawBookings.length; i++) {
 
-                String[] booking = rawBookings[i].split(",");
+                String[] booking = rawBookings[i].split(";");
 
                 bookings[i] = new Bookings();
                 bookings[i].username = booking[0];
@@ -330,9 +330,9 @@ class TicketManagement{
             "Vancouver Ferry, Canada"
     };
 
-    boolean login = false;
+    boolean login = true;
     boolean book = false;
-    String username;
+    String username = "piyush2";
 
 
 
@@ -586,9 +586,9 @@ class TicketManagement{
             int year = 0;
             int month = 0;
             int monthDate = 0;
-            boolean notValid = true;
+            boolean valid = false;
 
-            while (notValid) {
+            while (!valid) {
 
                 System.out.println("Enter the date of journey");
 
@@ -603,29 +603,29 @@ class TicketManagement{
                 sc.nextLine();
 
 
-                notValid = month > 0 && month <= 12;
+                valid = month > 0 && month <= 12 && year >= 1000 && monthDate > 0;
 
 
                 if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
-                    if (monthDate <= 31)
-                        notValid = false;
+                    if (monthDate > 31)
+                        valid = false;
                 }
                 else if(month == 2){
                     if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
-                        if(monthDate <= 29)
-                            notValid = false;
+                        if(monthDate > 29)
+                            valid = false;
                     }
                     else {
-                        if (monthDate <= 28)
-                            notValid = false;
+                        if (monthDate > 28)
+                            valid = false;
                     }
                 }
                 else {
-                    if (monthDate <= 30)
-                        notValid = false;
+                    if (monthDate > 30)
+                        valid = false;
                 }
 
-                if (notValid) {
+                if (!valid) {
 
                     System.out.println("\nThe Date you entered is invalid.");
 
@@ -660,7 +660,7 @@ class TicketManagement{
                     departureTime = ferry.departureTime;
                     from = ferry.from;
                     to = ferry.to;
-                    price = ferry.price * tickets + (parking?1000:0);
+                    price = ferry.price * tickets + (parking?100:0);
                     break;
                 }
 
@@ -691,8 +691,8 @@ class TicketManagement{
 
 
                     // Actually writing at the end of the file.
-                    out.print("\n" + username + "," + ferryNo + "," + ferryName + "," + date + "," + tickets + "," +
-                            from + "," + to + "," + departureTime + "," + parking + "," + price);
+                    out.print("\n" + username + ";" + ferryNo + ";" + ferryName + ";" + date + ";" + tickets + ";" +
+                            from + ";" + to + ";" + departureTime + ";" + parking + ";" + price);
 
 
                     // Changing the booking status to true.
@@ -713,6 +713,8 @@ class TicketManagement{
             else {
                 System.out.println("\n\nYou have cancelled this booking.");
                 System.out.println("You can give feedback on this platform at menu option 7.");
+                System.out.println("\nPress Enter to continue!");
+                sc.nextLine();
             }
 
         }
@@ -727,12 +729,11 @@ class TicketManagement{
 
 
     // Method to view ticket
-    void viewTicket(
-            Bookings[] bookings
-    ) {
+    void viewTicket() {
 
         Scanner sc = new Scanner(System.in);
 
+        Bookings[] bookings = Project.loadBookings();
 
         // If the user has booked any tickets
         if (book) {
@@ -771,11 +772,11 @@ class TicketManagement{
 
 
     // Method to cancel ticket
-    void cancelTicket(
-            Bookings[] bookings
-    ){
+    void cancelTicket(){
 
         Scanner sc = new Scanner(System.in);
+
+        Bookings[] bookings = Project.loadBookings();
 
 
         // If the user has booked the ticket -> then only he can cancel it (huhh obvious :/ )
