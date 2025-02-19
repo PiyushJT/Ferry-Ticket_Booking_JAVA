@@ -330,9 +330,9 @@ class TicketManagement{
             "Vancouver Ferry, Canada"
     };
 
-    boolean login = true;
+    boolean login = false;
     boolean book = false;
-    String username = "piyush2";
+    String username;
 
 
 
@@ -603,7 +603,7 @@ class TicketManagement{
                 sc.nextLine();
 
 
-                valid = month > 0 && month <= 12 && year >= 1000 && monthDate > 0;
+                valid = month > 0 && month <= 12 && year >= 2024 && monthDate > 0;
 
 
                 if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
@@ -640,7 +640,7 @@ class TicketManagement{
 
             // whether user wants parking facility or not.
             System.out.println("Do you want parking (extra $100/-) y/n: ");
-            boolean parking = "y".equals(sc.nextLine());
+            boolean parking = "y".equalsIgnoreCase(sc.nextLine());
 
 
             // Predefining some variables for ticket booking
@@ -811,7 +811,7 @@ class TicketManagement{
 
             // Confirming the cancellation
             System.out.println("Do you really want to cancel your ticket? y/n: ");
-            if("y".equals(sc.nextLine())) {
+            if("y".equalsIgnoreCase(sc.nextLine())) {
 
 
                 // Trying to write the cancellation details in the booking file.
@@ -964,16 +964,16 @@ class TicketManagement{
                 // Sorting the functionalities of admin
                 switch (inpt) {
                     case "1":
-                        showLogins(logins);
+                        showDetails(logins);
                         break;
                     case "2":
-                        showSchedule(ferries);
+                        showDetails(ferries);
                         break;
                     case "3":
-                        showBookings(bookings);
+                        showDetails(bookings);
                         break;
                     case "4":
-                        showFeedback(feedback);
+                        showDetails(feedback);
                         break;
                     case "5":
                         System.out.println("\n\nThank you!");
@@ -1053,7 +1053,7 @@ class TicketManagement{
 
 
     // Displaying all login data
-    void showLogins(Logins[] logins){
+    void showDetails(Logins[] logins){
 
         Scanner sc = new Scanner(System.in);
 
@@ -1074,7 +1074,7 @@ class TicketManagement{
 
 
     // Displaying all booking data
-    void showBookings(Bookings[] bookings){
+    void showDetails(Bookings[] bookings){
 
         Scanner sc = new Scanner(System.in);
 
@@ -1102,7 +1102,7 @@ class TicketManagement{
 
 
     // Displaying all schedules
-    void showSchedule(Ferries[] ferries){
+    void showDetails(Ferries[] ferries){
 
         Scanner sc = new Scanner(System.in);
 
@@ -1127,7 +1127,7 @@ class TicketManagement{
 
 
     // Displaying all feedbacks
-    void showFeedback(Feedback[] feedbacks){
+    void showDetails(Feedback[] feedbacks){
 
 
         Scanner sc = new Scanner(System.in);
