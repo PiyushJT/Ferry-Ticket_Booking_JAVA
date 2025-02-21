@@ -24,19 +24,19 @@ class Project {
 
         // Welcoming the User
         Scanner sc = new Scanner(System.in);
-        System.out.println("==============================================");
+        System.out.println("==================================");
         System.out.println("||\t\tFerry Reservation\t\t||");
-        System.out.println("==============================================");
+        System.out.println("==================================");
 
 
         // Main Menu
         String input = "0";
 
         while (!input.equals("8")) {
-            System.out.println("\n\n\n");
-            System.out.println("==============================================");
+            System.out.println("\n\n");
+            System.out.println("==================================");
             System.out.println("\t\t\tMenus");
-            System.out.println("==============================================");
+            System.out.println("==================================");
 
             System.out.println("""
 

@@ -1,4 +1,4 @@
-Ferry Name;Flight no.;Departure Time;From;To;Price;Arrival at destination
+Ferry Name;Ferry no.;Departure Time;From;To;Price;Arrival at destination
 Piraeus Ferry,Italy;11780;6:45 AM;Piraeus Ferry, Greece;Genoa Ferry, Italy;462;11:00 PM
 Piraeus Ferry,USA;31567;8:30 AM;Piraeus Ferry, Greece;San Francisco Ferry, USA;342;11:15 PM
 Piraeus Ferry,apan;32807;7:30 AM;Piraeus Ferry, Greece;Tokyo Ferry, Japan;565;12:30 PM
